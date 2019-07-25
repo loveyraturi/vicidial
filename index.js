@@ -1,6 +1,6 @@
 var server = require('./server/main')
 // start server
-const port = process.env.PORT || 5011
+const port = process.env.PORT || 4011
 serverInfo = server.listen(port, (error) => {
   if (error) {
     console.error(error)
