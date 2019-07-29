@@ -29,10 +29,5 @@ pipeline {
         sh "docker rmi $registry:v1"
       }
     }
-    stage('clone helm charts') {
-      steps{
-        git credentialsId: 'bitbucket', url: 'https://praveenraturi@bitbucket.org/renoprod/reno-secure-devops.git'
-      }
-    }
   }
 }
