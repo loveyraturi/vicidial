@@ -119,7 +119,7 @@ function generateData(req, res) {
 
         var options = {
           method: 'POST',
-          url: process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + '/renoSecureAcquirer/uploadmerchantdata',
+          url: process.env.FEATURE_ENGINE_BASE_URL + '/renoSecureAcquirer/uploadmerchantdata',
           headers:
             {
               'cache-control': 'no-cache',
