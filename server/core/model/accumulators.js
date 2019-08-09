@@ -256,7 +256,10 @@ module.exports.insertAccumulator = function (data, response, dataPojoField) {
       this.insertPojoField(dataPojoField)
 
     })
-    .catch(console.error);
+    .catch((error)=>{
+      console.log("Inside exception block")
+      response({"error":"Duplicate Entry"})
+    });
 
   /*
     global.db.insert('accumulators', data, (err, res) => {
