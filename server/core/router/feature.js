@@ -21,5 +21,7 @@ module.exports = (function () {
   router.get('/getFeatureDetails/:featuretypeid', feature.getFeatureDetailsForRuleController)
   router.put('/updatefeature/:featureid', feature.updateFeatureController)
   router.post('/createfeature', feature.createFeature)
+  router.get('/getdatasettings', feature.getDataSettings)
+  router.post('/createfeaturecustom', feature.createFeatureCustom)
   return router
 }())

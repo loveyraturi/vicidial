@@ -119,6 +119,21 @@ const featureController = (function () {
         res.status(status).json(response);
       })
     },
+    getDataSettings: (req, res) => {
+      feature.getDataSettings()
+        .then(function (response) {
+          return res.json(response);
+        })
+        .catch(function (e) {
+          res.status(500).json({ status: 'error', code: 'Error occur' });
+        });
+    },
+    createFeatureCustom: (req, res) => {
+
+      feature.createFeatureCustom(req.body, (status, response)=>{
+        res.status(status).json(response);
+      })
+    },
   }
 })()
 module.exports = featureController

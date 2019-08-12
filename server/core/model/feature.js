@@ -147,3 +147,50 @@ module.exports.insertFeatureInfo = (data, response) => {
     })
     .catch(console.error);
 }
+
+module.exports.getDataSettings = function () {
+  return global.db.column(['*'])
+    .select()
+    .from('data_settings').as('data_settings')
+    .orderBy('id', 'asc')
+}
+
+module.exports.insertDataSettingTemplate = function (dataSettingTemplate) {
+
+
+  return global.db('data_setting_template')
+    .insert(dataSettingTemplate)
+    .returning('*')
+
+}
+
+
+module.exports.insertFeatureInfoCustom = function (featurePojoData, featureDefination) {
+  let featureData = {
+    'type': 'pojofld',
+    'name': featurePojoData.locale,
+    'status': 0,
+    'configuration': '[{"value":"","typetxt":"","index":""}]',
+    'featuretype': 2
+  }
+
+  global.db('feature')
+    .insert(featureData)
+    .returning('*')
+    .then((res2) => {
+      featurePojoData.featurerefid = res2[0]
+      global.db('drl_pojofield')
+        .insert(featurePojoData)
+        .returning('*')
+        .then((res) => {
+          let pojofieldid = res[0]
+          featureDefination.pojofieldid = pojofieldid
+          global.db('drl_pojofield_def')
+            .insert(featureDefination)
+            .returning('*')
+            .then((res1) => {
+            })
+        })
+        .catch(console.error);
+    })
+}

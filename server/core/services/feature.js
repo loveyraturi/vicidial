@@ -251,3 +251,113 @@ module.exports.updateFeatureDetails = (featuretypeid, data, response) => {
   data.configuration = JSON.stringify(data.configuration)
   return feature.updateFeatureDetails(featuretypeid, data, response)
 }
+
+
+module.exports.getDataSettings = () => {
+  return feature.getDataSettings()
+}
+
+module.exports.createFeatureCustom = async (featureConfigData, response) => {
+  //let objFeatureConfigData = JSON.parse(featureConfigData)
+  var javaJsonArr = []
+  let finalJavaPojoObject = {
+    "regx": featureConfigData.regx,
+    "identity": featureConfigData.identity,
+    "type": featureConfigData.type
+  }
+  await Promise.all(featureConfigData.fields.map((featureCustom) => {
+    let featureName = featureCustom.featureName.trim();
+    let featureType = featureCustom.featureType == 'integer' ? 'integer' : 'string';
+    let orderRank = featureCustom.orderRank
+
+    let javaJson = {
+      "name": featureName.toLowerCase().replace(/ /g, "_"),
+      "type": featureType == 'integer' ? 'DOUBLE' : 'VARCHAR',
+      "isDateTime": featureCustom.featureType == 'datetime' ? true : false,
+      "regx": 'NA'
+    }
+    javaJsonArr.push(javaJson)
+  }))
+
+  finalJavaPojoObject = {
+    "regx": featureConfigData.regx,
+    "identity": featureConfigData.identity,
+    "type": featureConfigData.type,
+    "fields": javaJsonArr
+  }
+  var client = new restClient()
+  var args = {
+    data: finalJavaPojoObject,
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  };
+
+  let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/validateStream";
+  var req = client.post(url, args, async function (data, res) {
+    if (Buffer.isBuffer(data)) {
+      data = data.toString('utf8');
+    }
+    let dataObj = JSON.parse(data)
+    if (typeof dataObj.status!==undefined && dataObj.status == 200) {
+      // Insert Into DB
+      let promise = new Promise((resolve, reject) => {
+        let dataSettingObj = {
+          "template_name": featureConfigData.identity,
+          "regular_expression": featureConfigData.regx,
+          "type": featureConfigData.type
+        }
+        feature.insertDataSettingTemplate(dataSettingObj).then((res1) => {
+          resolve(res1)
+        })
+      });
+      var templateId = await promise;
+
+      await Promise.all(featureConfigData.fields.map((featureCustom) => {
+        let featureName = featureCustom.featureName.trim();
+        let featureType = featureCustom.featureType == 'integer' ? 'integer' : 'string';
+        let orderRank = featureCustom.orderRank
+
+        let objDrlPojofield = {
+          'pojoid': 6,
+          'field': featureName.toLowerCase().replace(/ /g, "_"),
+          'dbfield': featureName.toLowerCase().replace(/ /g, "_"),
+          'type': featureType,
+          'locale': featureName,
+          'orderIndex': orderRank,
+          'isDependent': 0,
+          'active': 0,
+          'source': '',
+          'featuretype': 2,
+          'datasetting_templateid': templateId
+        }
+
+        let objDrlPojofieldDef = featureType == 'string' ?
+          { 'defination': '{"compare":{"compareType":"Equal|Not Equal|In|Not in|Contains|startsWith|endsWith","type":"text"}}' } :
+          { 'defination': '{"compare":{"compareType":"Equal|Not Equal|Greater Than|Less Than","type":"text"}}' }
+
+        feature.insertFeatureInfoCustom(objDrlPojofield, objDrlPojofieldDef)
+      }))
+
+      response(200, { "status": true, "response": "Feature Created Successfully" })
+    }
+    else if(typeof dataObj.status!==undefined && dataObj.status == 400 && dataObj.message =="Topic already registered."){
+      module.exports.createFeatureCustom(featureConfigData, response)
+    }
+    else{
+      response(500, { "status": false, "response": dataObj.message })
+    }
+
+  });
+  req.on('requestTimeout', function (req) {
+    console.log('request has expired');
+  });
+  req.on('responseTimeout', function (res) {
+    console.log('response has expired');
+  });
+
+  //it's usefull to handle request errors to avoid, for example, socket hang up errors on request timeouts
+  req.on('error', function (err) {
+    console.log('request error', err);
+  });
+}
