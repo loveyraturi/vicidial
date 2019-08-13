@@ -329,7 +329,7 @@ module.exports.createFeatureCustom = async (featureConfigData, response) => {
           'isDependent': 0,
           'active': 0,
           'source': '',
-          'featuretype': 'non-funtional',
+          'featuretype': 'non-functional',
           'datasetting_templateid': templateId
         }
 
