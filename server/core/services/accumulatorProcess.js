@@ -936,8 +936,7 @@ module.exports.updateFunctionalNonFunctionalAccumulator = async (accumulatorReq,
     }
     deleteAccumulatorOfEngineAcquirer(reqJson)
   }
-
-  if (accumulatorReq.status == 1) {
+  if (accumulatorReq.status == 1 && accumulatorReq.type == 'functional') {
     accumulators.getAccumulatorById(accumulatorReq.id).then((res) => {
       //console.log(res)
 
