@@ -89,7 +89,6 @@ module.exports.updateStatusFeature = function (data, response) {
     .returning('*')
     .bind(console)
     .then((res) => {
-      
       let where = {
         featurerefid: data.id,
         featuretype: 'non-functional'
