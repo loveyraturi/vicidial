@@ -257,8 +257,8 @@ module.exports.insertAccumulator = function (data, response, dataPojoField) {
 
     })
     .catch((error)=>{
-      console.log("Inside exception block")
-      response({"error":"Duplicate Entry"})
+      console.log(error);
+      response({"error":error.sqlMessage})
     });
 
   /*
@@ -404,6 +404,7 @@ module.exports.updateStatusAccumulator = function (data, response) {
 
 
 module.exports.getAccumulator = (status) => {
+  console.log("inside accumulators testing")
   return global.db.select(
     'name',
     'status',

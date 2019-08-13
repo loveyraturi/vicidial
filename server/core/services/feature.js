@@ -299,6 +299,7 @@ module.exports.createFeatureCustom = async (featureConfigData, response) => {
       data = data.toString('utf8');
     }
     let dataObj = JSON.parse(data)
+    
     if (typeof dataObj.status!==undefined && dataObj.status == 200) {
       // Insert Into DB
       let promise = new Promise((resolve, reject) => {
@@ -328,7 +329,7 @@ module.exports.createFeatureCustom = async (featureConfigData, response) => {
           'isDependent': 0,
           'active': 0,
           'source': '',
-          'featuretype': 2,
+          'featuretype': 'non-funtional',
           'datasetting_templateid': templateId
         }
 
