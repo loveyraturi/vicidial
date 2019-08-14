@@ -379,7 +379,7 @@ module.exports.updateRulesOfEngine = async function (rule_type) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/renoSecureAcquirer/updateRule";
+    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/validateStream";
 
     var req = client.post(url, args, ()=>{
       
