@@ -20,11 +20,13 @@ module.exports.findFeatureList = function () {
     {configuration: 'configuration'},
     {ksqlquery: 'ksqlquery'},
     {name_ksql: 'name_ksql'},
-    {featuretype: 'featuretype'}
+    {featuretype: 'featuretype'},
+    {type: 'type'}
   ])
   .select()
   .from('feature').as('feature')
   .orderBy('id', 'desc')
+  .where({type: 'non-functional' })
 }
 module.exports.findActiveFeatureList = function (status) {
   return global.db.column([
