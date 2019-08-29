@@ -24,7 +24,7 @@ const featureController = (function () {
     findActiveFeatureListController: (req, res) => {
       feature.findActiveFeatureList()
         .then(function (response) {
-          let filterResponse = response.map((res)=>{
+          let filterResponse = response.map((res) => {
             res.configuration = JSON.parse(res.configuration)
             return res
           })
@@ -44,26 +44,37 @@ const featureController = (function () {
         });
     },
     getDuration: (req, res) => {
-      feature.duration(function(response){
+      feature.duration(function (response) {
         res.status(200).json(response)
       });
     },
     getCountryList: (req, res) => {
-      feature.country(req.params.pojo,function(response){
+      feature.country(req.params.pojo, function (response) {
         res.status(200).json(response)
       });
     },
     getMccList: (req, res) => {
-      feature.mcc(req.params.pojo,function(response){
-        res.status(200).json(response)
-      });
+     // feature.mcc(req.params.pojo,function(response){
+              //   res.status(200).json(response)
+              // });
+            //},
+      feature.mcc(req.params.pojo, function (response) {
+        response = JSON.parse(response[0].configuration);
+        response = response.map(item => {
+          const list = {}
+          list['item_id'] = item['index'];
+          list['item_text'] = item['index'];
+          return list;
+        })
+        res.status(200).json(response);
+      })
     },
     getMerchantData: (req, res) => {
       feature.getMerchantData()
         .then(function (response) {
           let returnRes = response.map((val) => {
             return JSON.parse(val.data)
-            
+
           }
           )
           return res.json(returnRes);
@@ -79,6 +90,7 @@ const featureController = (function () {
       });
     },
     marchantData: async (req, res) => {
+      console.log("inside marc hanat");
       let data = [];
       //demoProcess.processFile(req, res, data);
       data = await feature.processFile(req, res);
@@ -130,7 +142,7 @@ const featureController = (function () {
     },
     createFeatureCustom: (req, res) => {
 
-      feature.createFeatureCustom(req.body, (status, response)=>{
+      feature.createFeatureCustom(req.body, (status, response) => {
         res.status(status).json(response);
       })
     },

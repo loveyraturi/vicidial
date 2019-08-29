@@ -20,6 +20,8 @@ module.exports = (function () {
   router.get('/fetchAccumulatorListByTypev1/:accumulator_for', accumulator.getAccumulatorListByTypev1) //Done
   router.get('/fetchInactiveAccumulatorListByType/:accumulator_for', accumulator.getInactiveAccumulatorListByType)//Done
   router.get('/getAccumulator/:status', accumulator.getAccumulator)
+  router.get('/getAccumulatorNonFunctional/:status', accumulator.getAccumulatorNonFUnctional)
+
   router.post('/functional-non-functional-update', accumulator.updateFunctionalNonFunctionalAccumulator) // Done
   return router
 }())

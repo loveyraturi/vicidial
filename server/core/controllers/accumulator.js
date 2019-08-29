@@ -92,6 +92,13 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       })
     },
+
+    getAccumulatorNonFUnctional: (req, res) => {
+      const status = req.params['status']
+      accumulatorProcess.getAccumulatorNonFunctional(status, function (response) {
+        res.status(200).json(response)
+      })
+    },
     updateFunctionalNonFunctionalAccumulator: (req, res) => {
       accumulatorProcess.updateFunctionalNonFunctionalAccumulator(req.body, function (response) {
         // console.log(response)
