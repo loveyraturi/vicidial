@@ -386,7 +386,7 @@ module.exports.updateRulesOfEngine = async function (rule_type) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/validateStream";
+    let url = process.env.FEATURE_ENGINE_BASE_URL + "/validateStream";
 
     var req = client.post(url, args, ()=>{
       
@@ -430,7 +430,7 @@ module.exports.updateRulesOfEngineAcquirer = async function (rule_type) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/renoSecureAcquirer/updateRule";
+    let url = process.env.FEATURE_ENGINE_BASE_URL + "/renoSecureAcquirer/updateRule";
 
     var req = client.post(url, args, function (data, response) {
 
@@ -474,7 +474,7 @@ module.exports.updateCustomRulesOfEngineAcquirer = async function (rule_name) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/renoSecureAcquirer/updateCustomRule";
+    let url = process.env.FEATURE_ENGINE_BASE_URL + "/renoSecureAcquirer/updateCustomRule";
 
     var req = client.post(url, args, function (data, response) {
 
