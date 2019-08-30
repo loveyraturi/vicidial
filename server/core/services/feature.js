@@ -293,7 +293,7 @@ module.exports.createFeatureCustom = async (featureConfigData, response) => {
     }
   };
 
-  let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/validateStream";
+  let url = process.env.FEATURE_ENGINE_BASE_URL + "/validateStream";
   var req = client.post(url, args, async function (data, res) {
     if (Buffer.isBuffer(data)) {
       data = data.toString('utf8');

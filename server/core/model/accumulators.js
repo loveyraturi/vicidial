@@ -404,8 +404,9 @@ module.exports.updateStatusAccumulator = function (data, response) {
 
 
 module.exports.getAccumulator = (status) => {
+  
   console.log("inside accumulators testing")
-  return global.db.select(
+return global.db.select(
     'name',
     'status',
     'id',
@@ -415,19 +416,51 @@ module.exports.getAccumulator = (status) => {
     'description',
     'statussandbox'
   ).from('accumulators').where({
-    status: status
-  }).union(function () {
-    this.select(
-      'name',
-      'status',
-      'id',
-      'deleted_date',
-      global.db.raw('? as isvalid', [1]),
-      global.db.raw('? as type', ['non-functional']),
-      global.db.raw('? as description', ['']),
-      'statussandbox'
-    ).from('feature').where({
-      status: status
-    })
+    status: status,
   })
+  
 }
+  // console.log('query',global.db.select(
+  //   'name',
+  //   'status',
+  //   'id',
+  //   'deleted_date',
+  //   'isValid as isvalid',
+  //   global.db.raw('? as type', ['functional']),
+  //   'description',
+  //   'statussandbox'
+  // ).from('accumulators').where({
+  //   status: status
+  // }).union(function () {
+  //   this.select(
+  //     'name',
+  //     'status',
+  //     'id',
+  //     'deleted_date',
+  //     global.db.raw('? as isvalid', [1]),
+  //     global.db.raw('? as type', ['non-functional']),
+  //     global.db.raw('? as description', ['']),
+  //     'statussandbox'
+  //   ).from('feature').where({
+  //     status: status
+  //   })
+  // }).toString())
+
+
+
+module.exports.getAccumulatorNonFunctional = (status) => {
+  
+ return global.db.select(
+  'name',
+  'status',
+  'id',
+  'deleted_date',
+  global.db.raw('? as isvalid', [1]),
+  global.db.raw('? as type', ['non-functional']),
+  global.db.raw('? as description', ['']),
+  'statussandbox'
+).from('feature').where({
+  status: status,
+})
+}
+  

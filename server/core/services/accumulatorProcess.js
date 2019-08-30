@@ -27,9 +27,13 @@ forRefTableConf = (transactionField) => {
 }
 
 forCustomTableConf = (table, value) => {
+
+  console.log("table",table)
   return new Promise(resolve => {
     customSetModel.getCustomTableInfo(table, value).then(function (response) {
-      tablestructure = response[0].tablestructure;
+      console.log("",response)
+      tablestructure = {"tablename":table,
+      "primarykey":response[0].id};
       resolve({
         tablestructure: tablestructure
       });
@@ -51,18 +55,21 @@ forCustomAccuireTableConf = (table, value) => {
 
 
 forJoinStatement = async (transactionField, value) => {
-
+console.log("tranfield" + transactionField);
+console.log("value" + value)
   let tableDetails = await forRefTableConf(transactionField)
-
+console.log(tableDetails);
   let table = tableDetails.refTable
   let customTableStructure = await forCustomTableConf(table, value)
+  console.log(customTableStructure.tablestructure.tablename);
   let {
     tablename,
     primarykey
-  } = JSON.parse(customTableStructure.tablestructure)
+  } = customTableStructure.tablestructure
   let mainTableRefField = 'ISOMESSAGEDEV.' + transactionField
   let refTableField = tablename + '.' + primarykey
   let joinObj = '"' + tablename + '": {      "$as": "' + tablename + '",      "$leftJoin": { "' + mainTableRefField + '": { "$eq": { "$column": "' + refTableField + '" } } }    }  '
+ console.log("joinObj " + joinObj);
   joinCondition.push(joinObj)
 }
 
@@ -379,7 +386,7 @@ module.exports.updateRulesOfEngine = async function (rule_type) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/validateStream";
+    let url = process.env.FEATURE_ENGINE_BASE_URL + "/validateStream";
 
     var req = client.post(url, args, ()=>{
       
@@ -423,7 +430,7 @@ module.exports.updateRulesOfEngineAcquirer = async function (rule_type) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/renoSecureAcquirer/updateRule";
+    let url = process.env.FEATURE_ENGINE_BASE_URL + "/renoSecureAcquirer/updateRule";
 
     var req = client.post(url, args, function (data, response) {
 
@@ -467,7 +474,7 @@ module.exports.updateCustomRulesOfEngineAcquirer = async function (rule_name) {
     };
     console.log("argssss#######", args)
     var client = new restClient()
-    let url = process.env.JAVA_RULE_ENGINE_URL_ACQUIRER + "/renoSecureAcquirer/updateCustomRule";
+    let url = process.env.FEATURE_ENGINE_BASE_URL + "/renoSecureAcquirer/updateCustomRule";
 
     var req = client.post(url, args, function (data, response) {
 
@@ -964,5 +971,11 @@ module.exports.updateFunctionalNonFunctionalAccumulator = async (accumulatorReq,
 }
 
 module.exports.getAccumulator = (status, sendResponse) => {
+  console.log(status)
   return accumulators.getAccumulator(status).then(sendResponse)
+}
+
+
+module.exports.getAccumulatorNonFunctional = (status, sendResponse) => {
+  return accumulators.getAccumulatorNonFunctional(status).then(sendResponse)
 }
