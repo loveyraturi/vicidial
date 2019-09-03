@@ -26,8 +26,7 @@ module.exports.findFeatureList = function () {
   .select()
   .from('feature').as('feature')
   .orderBy('id', 'desc')
-  .where({type: 'non-functional' ,
-  parentfield: 'MCC'
+  .where({type: 'non-functional' 
 })
 }
 module.exports.findActiveFeatureList = function (status) {
