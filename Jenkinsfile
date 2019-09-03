@@ -9,7 +9,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build("renovitetechnologies/reno-secure-ui-features-backend-sandbox:v2","--build-arg username=praveenraturi --build-arg password=1l9o9v4eyes .")
+          dockerImage = docker.build("renovitetechnologies/reno-secure-ui-features-backend-sandbox:v1","--build-arg username=praveenraturi --build-arg password=1l9o9v4eyes .")
         }
       }
     }
