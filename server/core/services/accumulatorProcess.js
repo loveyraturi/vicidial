@@ -28,10 +28,8 @@ forRefTableConf = (transactionField) => {
 
 forCustomTableConf = (table, value) => {
 
-  console.log("table",table)
   return new Promise(resolve => {
     customSetModel.getCustomTableInfo(table, value).then(function (response) {
-      console.log("",response)
       tablestructure = {"tablename":table,
       "primarykey":response[0].id};
       resolve({
@@ -55,13 +53,9 @@ forCustomAccuireTableConf = (table, value) => {
 
 
 forJoinStatement = async (transactionField, value) => {
-console.log("tranfield" + transactionField);
-console.log("value" + value)
   let tableDetails = await forRefTableConf(transactionField)
-console.log(tableDetails);
   let table = tableDetails.refTable
   let customTableStructure = await forCustomTableConf(table, value)
-  console.log(customTableStructure.tablestructure.tablename);
   let {
     tablename,
     primarykey
@@ -69,7 +63,7 @@ console.log(tableDetails);
   let mainTableRefField = 'ISOMESSAGEDEV.' + transactionField
   let refTableField = tablename + '.' + primarykey
   let joinObj = '"' + tablename + '": {      "$as": "' + tablename + '",      "$leftJoin": { "' + mainTableRefField + '": { "$eq": { "$column": "' + refTableField + '" } } }    }  '
- console.log("joinObj " + joinObj);
+// console.log("joinObj " + joinObj);
   joinCondition.push(joinObj)
 }
 
@@ -109,19 +103,30 @@ forJoinWhereMerchantStatement = async (configuration) => {
 forInStatement = async (where) => {
   
   var whereStrArr = await Promise.all(where.compareValue.map(async (value) => {
-    
-    if (!isNaN(value.item_id)) {
-      return where.transactionField + "='" + value.item_id + "'"
-    } else {
-      let refTable = await forRefTableConf(where.transactionField)
-      console.log(refTable)
-      if (refTable.refTable == null || refTable.refTable == '') {
-        return where.transactionField + "='" + value.item_id + "'"
-      }
-      else {
-        await forJoinStatement(where.transactionField, value.item_id)
-      }
-    }
+    let arrayMcc = value.item_id.split(',')
+    var conditionForWhere='';
+   for(i=0;i<arrayMcc.length;i++){
+     if(arrayMcc.length-1 == i ){
+       conditionForWhere = conditionForWhere + where.transactionField + "='" + arrayMcc[i] + "'";
+     } else {
+      conditionForWhere = conditionForWhere + where.transactionField + "='" + arrayMcc[i] + "' && " ;
+     }
+   }
+   return conditionForWhere;
+   
+    // if (!isNaN(value.item_id)) {
+    //   return where.transactionField + "='" + value.item_id + "'"
+    // } else {
+    //   // let refTable = await forRefTableConf(where.transactionField)
+    //   // console.log(refTable)
+    //   // if (refTable.refTable == null || refTable.refTable == '') {
+    //     return where.transactionField + "='" + value.item_id + "'"
+    //   // }
+    //   // else {
+    //   //   console.log("################################122")
+    //   //   await forJoinStatement(where.transactionField, value.item_id)
+    //   // }
+    // }
   }))
 
   
@@ -184,6 +189,7 @@ createAccuireWhere = async (wherePool) => {
   let type;
 
   queryPool = await Promise.all(wherePool.map(async (where) => {
+
     if (where.element) {
       let whereArr = await createAccuireWhere(where.element)
       return whereArr.join(' ' + ruleStructure.sqlOperators[where.operator] + ' ')
@@ -212,7 +218,6 @@ createAccuireWhere = async (wherePool) => {
         return forInStatement(where)
       }
       let syntax = ruleStructure.sqlAllCondition[where.operator]
-      //console.log(type)
       if (syntax) {
         syntax = syntax.replace('field', where.transactionField)
         syntax = syntax.replace('value', where.compareValue)
@@ -273,6 +278,7 @@ module.exports.fetchAccumulatorsByValue = (value, sendResponse) => {
 
 
 module.exports.createAccumulator = async (accumulatorReq, sendResponse) => {
+  console.log("this also used");
   let accumulatorFor = accumulatorReq.accumulatorFor.map((data) => data.item_id)
   let accumulatorFunction = accumulatorReq.accumulatorFunction
   let accumulatorFunctionOf = accumulatorReq.accumulatorFunctionOf
@@ -593,12 +599,8 @@ module.exports.createAccuireAccumulator = async (accumulatorReq, sendResponse) =
 
   columns = accumulatorFor.concat(columns)
   joinCondition = []
-  //console.log(columns)
-  //console.log("$#$#@$#@#$")
   var queryPool = await createAccuireWhere(whereCondition)
-
   let joinConditionAll = joinCondition.length > 0 ? "{" + joinCondition.join(",") + "}" : ""
-
 
   isDependentWhere = 0
 
@@ -640,20 +642,11 @@ module.exports.createAccuireAccumulator = async (accumulatorReq, sendResponse) =
       }
     }
   }
-  
-  //console.log(JSON.stringify(queryJson))
-  //console.log(accumulatorFor)
 
-
-
-
-  //console.log("isDependent", isDependentGlobal)
   var query = sqlbuilder.build(queryJson).sql
   var queryArr = query.split("GROUP")
   queryPool = queryPool.filter(Boolean)
-  //console.log(queryPool)
   var whereCond = queryPool.length > 0 ? "where " + '(' + queryPool.join(') ' + ruleStructure.sqlOperators[primaryOperator] + ' (') + ')' : ""
-  //console.log(whereCond)
   var durationSettings = (windowType == 'duration') ? " WINDOW TUMBLING (" + duration + ") " : ""
   var finalQuery = queryArr[0] + durationSettings + whereCond + " GROUP" + queryArr[1]
   finalQuery = finalQuery.replace(/`/gi, '');
@@ -662,12 +655,10 @@ module.exports.createAccuireAccumulator = async (accumulatorReq, sendResponse) =
   operators = accumulatorReq.accumulatorFunction == 'boolean' ? "{ \"compare\": {\"compareType\": \"Equal|Not Equal\",\"type\": \"text\" }}"
     : "{ \"compare\": {\"compareType\": \"Equal|Not Equal|Greater Than|Less Than\",\"type\": \"text\" }}"
 
-  //console.log(accumulatorFor)
 
   if (accumulatorReq.preview) {
     sendResponse({ final_query: finalQuery })
   } else {
-    //console.log("finalQuery",finalQuery)
     isDependentGlobal = isDependentGlobal == 1 ? true : true
 
     //demoProcess.updateAccumulatorOfEngineAcquirer(accumulatorReq.accumulatorname.replace(/ /g, "_"), finalQuery, isDependentGlobal, accumulatorFor)
@@ -694,7 +685,6 @@ module.exports.createAccuireAccumulator = async (accumulatorReq, sendResponse) =
       orderIndex: 1,
       isDependent: 0
     }
-
     let insertResponse = accumulators.insertAccumulator(result, sendResponse, dataPojoField)
 
   }
@@ -845,7 +835,6 @@ module.exports.updateAccumulator = async (accumulatorReq, sendResponse) => {
   var durationSettings = (windowType == 'duration') ? " WINDOW TUMBLING (" + duration + ") " : ""
   var finalQuery = queryArr[0] + durationSettings + whereCond + " GROUP" + queryArr[1]
   finalQuery = finalQuery.replace(/`/gi, '');
-  //console.log(finalQuery)
   var operators;
   operators = accumulatorReq.accumulatorFunction == 'boolean' ? "{ \"compare\": {\"compareType\": \"Equal|Not Equal\",\"type\": \"text\" }}" :
     "{ \"compare\": {\"compareType\": \"Equal|Not Equal|Greater Than|Less Than\",\"type\": \"text\" }}"
@@ -945,7 +934,6 @@ module.exports.updateFunctionalNonFunctionalAccumulator = async (accumulatorReq,
   }
   if (accumulatorReq.status == 1 && accumulatorReq.type == 'functional') {
     accumulators.getAccumulatorById(accumulatorReq.id).then((res) => {
-      //console.log(res)
 
 
       //let finalQuery = "create table " + res[0].pojofieldid.replace(/ /g, "_") + " AS " + res[0].content;
@@ -971,7 +959,6 @@ module.exports.updateFunctionalNonFunctionalAccumulator = async (accumulatorReq,
 }
 
 module.exports.getAccumulator = (status, sendResponse) => {
-  console.log(status)
   return accumulators.getAccumulator(status).then(sendResponse)
 }
 

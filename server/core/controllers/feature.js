@@ -67,8 +67,9 @@ const featureController = (function () {
         }).map(item => {
           var configlist = JSON.parse(item);
           configlist= configlist.map(result => {
+            console.log("result mcc" , result)
             const list = {}
-            list['item_id'] = result['index'];
+            list['item_id'] = result['value'];
             list['item_text'] = result['index'];
             return list;
 
