@@ -109,7 +109,7 @@ forInStatement = async (where) => {
      if(arrayMcc.length-1 == i ){
        conditionForWhere = conditionForWhere + where.transactionField + "='" + arrayMcc[i] + "'";
      } else {
-      conditionForWhere = conditionForWhere + where.transactionField + "='" + arrayMcc[i] + "' && " ;
+      conditionForWhere = conditionForWhere + where.transactionField + "='" + arrayMcc[i] + "' || " ;
      }
    }
    return conditionForWhere;
