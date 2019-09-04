@@ -54,18 +54,27 @@ const featureController = (function () {
       });
     },
     getMccList: (req, res) => {
-     // feature.mcc(req.params.pojo,function(response){
-              //   res.status(200).json(response)
-              // });
-            //},
+      // feature.mcc(req.params.pojo,function(response){
+      //   res.status(200).json(response)
+      // });
+      //},
       feature.mcc(req.params.pojo, function (response) {
-        response = JSON.parse(response[0].configuration);
-        response = response.map(item => {
-          const list = {}
-          list['item_id'] = item['index'];
-          list['item_text'] = item['index'];
-          return list;
-        })
+        response = JSON.parse(JSON.stringify(response));
+        response = [].concat(...response.map(item => {
+          const config = JSON.parse(JSON.stringify(item.configuration));
+          return config;
+        }).map(item => {
+          var configlist = JSON.parse(item);
+          configlist= configlist.map(result => {
+            console.log("result mcc" , result)
+            const list = {}
+            list['item_id'] = result['value'];
+            list['item_text'] = result['index'];
+            return list;
+
+          })
+          return configlist;
+        }))
         res.status(200).json(response);
       })
     },

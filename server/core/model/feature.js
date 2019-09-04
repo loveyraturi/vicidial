@@ -26,7 +26,8 @@ module.exports.findFeatureList = function () {
   .select()
   .from('feature').as('feature')
   .orderBy('id', 'desc')
-  .where({type: 'non-functional' })
+  .where({type: 'non-functional' 
+})
 }
 module.exports.findActiveFeatureList = function (status) {
   return global.db.column([
