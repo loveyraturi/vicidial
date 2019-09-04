@@ -60,7 +60,6 @@ const featureController = (function () {
       //},
       feature.mcc(req.params.pojo, function (response) {
         response = JSON.parse(JSON.stringify(response));
-      
         response = [].concat(...response.map(item => {
           const config = JSON.parse(JSON.stringify(item.configuration));
           return config;
