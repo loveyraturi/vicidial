@@ -1,8 +1,8 @@
 'use strict'
-const accumulator = require('./accumulator')
-const feature = require('./feature')
+const user = require('./user')
+const campaing = require('./campaing')
 
 module.exports = (app) => {
-  app.use('/api/accumulator', accumulator)
-  app.use('/api/feature', feature)
+  app.use('/api/user', user)
+  app.use('/api/campaing', campaing)
 }
