@@ -1,13 +1,13 @@
 module.exports.fetchCampaing = function () {
   return global.db
     .select('*')
-    .from('campaing').orderBy('id', 'desc')
+    .from('vicidial_campaigns')
 }
 
 module.exports.createCampaing = function (data, response) {
-  return global.db('campaing')
+  return global.db('vicidial_campaigns')
     .insert(data)
-    .returning('id')
+    .returning('campaign_id')
     .then((res) => {
       response({
         status: true
@@ -24,9 +24,9 @@ module.exports.createCampaing = function (data, response) {
 
 module.exports.updateCampaing = function (data, response) {
 
-  return global.db.table('campaing')
+  return global.db.table('vicidial_campaigns')
     .where({
-      id: data.id
+      campaing_id: data.id
     })
     .update(data)
     .returning('*')
@@ -38,10 +38,15 @@ module.exports.updateCampaing = function (data, response) {
     })
     .catch(console.error);
 }
+module.exports.fetchCampaingById = (id) => {
 
+  return global.db
+  .select('*')
+  .from('vicidial_campaigns').where({campaign_id:id})
+}
 module.exports.deleteCampaing = (id,response) => {
 
-  return global.db('campaing').where('id', id)
+  return global.db('vicidial_campaigns').where('campaign_id', id)
   .del().then(() => {
     response({
       status: true

@@ -8,6 +8,16 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       })
     },
+    fetchCampaingById: (req, res) => {
+      campaing.fetchCampaingById(req.params.id, function (response) {
+        res.status(200).json(response)
+      });
+    },
+    deleteCampaing: (req, res) => {
+      campaing.deleteCampaing(req.params.id, function (response) {
+        res.status(200).json(response)
+      });
+    },
     deleteCampaing: (req, res) => {
       campaing.deleteCampaing(req.params.value, function (response) {
         res.status(200).json(response)

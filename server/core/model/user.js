@@ -1,9 +1,15 @@
 module.exports.fetchUsers = function () {
   return global.db
     .select('*')
-    .from('user').orderBy('id', 'desc')
+    .from('vicidial_users').orderBy('user_id', 'desc')
 }
-
+module.exports.fetchUsersById = function (id) {
+  return global.db
+    .select('*')
+    .from('vicidial_users').where({
+      user_id: id
+    })
+}
 module.exports.fetchGroupsByUser = function (userid) {
   return global.db
     .select('*')
@@ -18,33 +24,33 @@ module.exports.fetchGroups = function () {
     .from('groups')
 }
 
+module.exports.authenticate = function (data) {
+  console.log(data)
+  return global.db
+    .select('*')
+    .from('vicidial_users').where({
+      phone_login: data.userName,
+      phone_pass: data.password
+    })
+
+}
+
+
 module.exports.createUser = function (data, response) {
-  var userdetails={
-    name:data.name,
-    phonenumber:data.phonenumber,
-    status:data.status,
-    password:data.password
+  var userdetails = {
+    user: data.name,
+    pass: data.password,
+    full_name: data.name,
+    user_level: data.level,
+    user_group:data.group,
+    phone_login: data.phonenumber,
+    phone_pass: data.password,
+    active: data.status
   }
-  return global.db('user')
+  return global.db('vicidial_users')
     .insert(userdetails)
     .returning('id')
     .then((res) => {
-      var userid=res[0]
-      data.groups.forEach(element => {
-        var groups={
-          groupid: element,
-          userid: userid
-        }
-        global.db('groupuser').insert(groups)
-        .returning('id').then((resp) => {
-          
-        }).catch((error) => {
-          console.log(error);
-          response({
-            "error": error.sqlMessage
-          })
-        })
-      });
       response({
         status: true
       })
@@ -59,12 +65,22 @@ module.exports.createUser = function (data, response) {
 }
 
 module.exports.updateUser = function (data, response) {
+  var userdetails = {
+    user: data.name,
+    pass: data.password,
+    full_name: data.name,
+    user_level: data.level,
+    user_group:data.group,
+    phone_login: data.phonenumber,
+    phone_pass: data.password,
+    active: data.status
+  }
 
-  return global.db.table('user')
+  return global.db.table('vicidial_users')
     .where({
-      id: data.id
+      user_id: data.id
     })
-    .update(data)
+    .update(userdetails)
     .returning('*')
     .bind(console)
     .then(() => {
@@ -77,12 +93,11 @@ module.exports.updateUser = function (data, response) {
 
 module.exports.deleteUser = (id, response) => {
 
-  return global.db('user').where('id', id)
+  return global.db('vicidial_users').where('user_id', id)
     .del().then(() => {
-      response({
-        status: true
-      })
-    })
-    .catch(console.error);
+          response({
+            status: true
+          })
+    }).catch(console.error);
 
 }

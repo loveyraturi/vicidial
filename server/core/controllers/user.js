@@ -13,6 +13,22 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    authenticate: (req, res) => {
+      user.authenticate(req.body, function (response) {
+        console.log(response)
+        var isValid = true
+        if (response.length == 0) {
+          isValid = false
+        }
+        var responseBackend = {
+          name: response[0].name,
+          phoneNumber: response[0].phonenumber,
+          status: isValid
+        }
+        console.log(responseBackend)
+        res.status(200).json(responseBackend)
+      });
+    },
     updateUser: (req, res) => {
       user.updateUser(req.body, function (response) {
         // console.log(response)
@@ -25,8 +41,14 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    fetchUsersById: (req, res) => {
+      user.fetchUsersById(req.params.id, function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
     fetchGroupsByUser: (req, res) => {
-      user.fetchGroupsByUser(req.params.id,function (response) {
+      user.fetchGroupsByUser(req.params.id, function (response) {
         // console.log(response)
         res.status(200).json(response)
       });
