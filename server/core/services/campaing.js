@@ -16,6 +16,9 @@ module.exports.deleteCampaing = (id, sendResponse) => {
 module.exports.updateCampaing = (data, sendResponse) => {
   return campaing.updateCampaing(data,sendResponse).then(sendResponse)
 }
+module.exports.updateCampaingStatus = (data, sendResponse) => {
+  return campaing.updateCampaingStatus(data,sendResponse).then(sendResponse)
+}
 module.exports.fetchCampaing = (sendResponse) => {
   return campaing.fetchCampaing().then(sendResponse)
 }

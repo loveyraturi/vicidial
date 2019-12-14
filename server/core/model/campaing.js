@@ -44,6 +44,24 @@ module.exports.fetchCampaingById = (id) => {
   .select('*')
   .from('vicidial_campaigns').where({campaign_id:id})
 }
+
+module.exports.updateCampaingStatus = function (data, response) {
+  var campaingdetailsstatus = {
+    active: data.active
+  }
+  console.log(campaingdetailsstatus)
+  return global.db.table('vicidial_campaigns')
+  .where({
+    campaign_id: data.campaign_id
+  })
+  .update(campaingdetailsstatus)
+  .then(() => {
+    response({
+      status: true
+    })
+  })
+  .catch(console.error);
+}
 module.exports.deleteCampaing = (id,response) => {
 
   return global.db('vicidial_campaigns').where('campaign_id', id)

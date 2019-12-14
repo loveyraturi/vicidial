@@ -64,6 +64,24 @@ module.exports.createUser = function (data, response) {
 
 }
 
+module.exports.updateUserStatus = function (data, response) {
+  var userdetailsstatus = {
+    active: data.active
+  }
+  console.log(userdetailsstatus)
+  return global.db.table('vicidial_users')
+  .where({
+    user_id: data.user_id
+  })
+  .update(userdetailsstatus)
+  .then(() => {
+    response({
+      status: true
+    })
+  })
+  .catch(console.error);
+}
+
 module.exports.updateUser = function (data, response) {
   var userdetails = {
     user: data.name,

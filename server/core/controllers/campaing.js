@@ -29,6 +29,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    updateCampaingStatus: (req, res) => {
+      campaing.updateCampaingStatus(req.body, function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
     fetchCampaing: (req, res) => {
       campaing.fetchCampaing(function (response) {
         // console.log(response)

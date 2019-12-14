@@ -7,6 +7,7 @@ module.exports = (function () {
   router.post('/createuser', user.createUser)
   router.post('/auth', user.authenticate)
   router.put('/updateuser', user.updateUser)
+  router.put('/updateuserstatus', user.updateUserStatus)
   router.get('/fetchusers', user.fetchUsers)
   router.get('/fetchusersById/:id', user.fetchUsersById)
   router.get('/deleteuser/:id', user.deleteUser)

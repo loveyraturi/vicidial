@@ -41,6 +41,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    updateUserStatus: (req, res) => {
+      user.updateUserStatus(req.body, function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
     fetchUsersById: (req, res) => {
       user.fetchUsersById(req.params.id, function (response) {
         // console.log(response)
