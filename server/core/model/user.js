@@ -21,7 +21,7 @@ module.exports.fetchGroupsByUser = function (userid) {
 module.exports.fetchGroups = function () {
   return global.db
     .select('*')
-    .from('groups')
+    .from('vicidial_user_groups')
 }
 
 module.exports.authenticate = function (data) {
