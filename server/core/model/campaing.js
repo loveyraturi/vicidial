@@ -5,7 +5,7 @@ module.exports.fetchCampaing = function () {
 }
 
 module.exports.createCampaing = function (data, response) {
-
+console.log("@$@$@#$@#$@$",data)
   return global.db('vicidial_campaigns')
     .insert(data.campaign)
     .returning('campaign_id')
@@ -13,14 +13,15 @@ module.exports.createCampaing = function (data, response) {
       global.db('vicidial_user_groups')
     .insert(data.group)
     .then((resp) => {
-      response({
-        status: true
-      })
+     
     }).catch((error) => {
       console.log(error);
       response({
         "error": error.sqlMessage
       })
+    })
+    response({
+      status: true
     })
     })
     .catch((error) => {
