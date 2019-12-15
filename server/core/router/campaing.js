@@ -5,7 +5,7 @@ const router = require('express').Router()
 
 module.exports = (function () {
   router.post('/createcampaing', campaing.createCampaing) // Done
-  router.post('/updatecampaing', campaing.updateCampaing) // Done
+  router.put('/updatecampaing', campaing.updateCampaing) // Done
   router.get('/fetchcampaing', campaing.fetchCampaing) // Done
   router.put('/updatecampaingstatus', campaing.updateCampaingStatus)
   router.get('/fetchCampaingById/:id', campaing.fetchCampaingById)

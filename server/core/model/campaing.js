@@ -37,12 +37,24 @@ module.exports.updateCampaing = function (data, response) {
 
   return global.db.table('vicidial_campaigns')
     .where({
-      campaing_id: data.id
+      campaign_id: data.campaign.campaign_id
     })
-    .update(data)
+    .update(data.campaign)
     .returning('*')
     .bind(console)
-    .then(() => {
+    .then((resp) => {
+      console.log(resp)
+      // var response=  global.db
+      // .select('allowed_campaigns')
+      // .from('vicidial_campaigns').where({allowed_campaigns:data.campaign.campaign_name})
+      // console.log()
+    //   global.db.table('vicidial_user_groups')
+    // .where({
+    //   campaing_id: data.id
+    // })
+    // .update(data.campaign).then(() => {
+
+    // })
       response({
         status: true
       })
