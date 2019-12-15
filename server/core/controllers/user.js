@@ -21,8 +21,8 @@ const accumulatorController = (function () {
           isValid = false
         }
         var responseBackend = {
-          name: response[0].name,
-          phoneNumber: response[0].phonenumber,
+          name: response[0].user,
+          phoneNumber: response[0].phone_login,
           status: isValid
         }
         console.log(responseBackend)
