@@ -10,11 +10,11 @@ module.exports.fetchUsersById = function (id) {
       user_id: id
     })
 }
-module.exports.fetchGroupsByUser = function (userid) {
+module.exports.fetchGroupsByUser = function (user_group) {
   return global.db
     .select('*')
-    .from('groupuser').leftJoin('groups', 'groupuser.groupid', 'groups.id').where({
-      userid: userid
+    .from('vicidial_user_groups').where({
+      user_group: user_group
     })
 }
 
