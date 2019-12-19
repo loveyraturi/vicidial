@@ -4,12 +4,14 @@ const agent = require('../services/agent')
 const accumulatorController = (function () {
   return {
     fetchAllAgentsCount: (req, res) => {
+      console.log("fetchAllAgentsCount")
       agent.fetchAllAgentsCount(function (response) {
         // console.log(response)
         res.status(200).json(response)
       });
     },
     fetchLiveAgentsCount: (req, res) => {
+      console.log("fetchLiveAgentsCount")
       agent.fetchLiveAgentsCount(function (response) {
         // console.log(response)
         res.status(200).json(response)
