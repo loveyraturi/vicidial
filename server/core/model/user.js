@@ -23,7 +23,11 @@ module.exports.fetchGroups = function () {
     .select('*')
     .from('vicidial_user_groups')
 }
-
+module.exports.fetchGroupsById = function (id) {
+  return global.db
+    .select('*')
+    .from('vicidial_user_groups').where({user_group:id})
+}
 module.exports.authenticate = function (data) {
   console.log(data)
   return global.db

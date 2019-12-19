@@ -65,6 +65,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    fetchGroupsById: (req, res) => {
+      user.fetchGroupsById(req.params.id,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
   }
 })()
 module.exports = accumulatorController
