@@ -113,6 +113,27 @@ module.exports.updateUser = function (data, response) {
     .catch(console.error);
 }
 
+module.exports.updateGroup = function (data, response) {
+  var groupDetails = {
+    group_name: data.groupName,
+    allowed_campaigns: data.allowed_campaigns
+  }
+
+  return global.db.table('vicidial_user_groups')
+    .where({
+      user_group: data.name,
+    })
+    .update(groupDetails)
+    .returning('*')
+    .bind(console)
+    .then(() => {
+      response({
+        status: true
+      })
+    })
+    .catch(console.error);
+}
+
 module.exports.deleteUser = (id, response) => {
 
   return global.db('vicidial_users').where('user_id', id)

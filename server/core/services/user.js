@@ -17,6 +17,9 @@ module.exports.deleteUser = (id, sendResponse) => {
 module.exports.updateUser = (data, sendResponse) => {
   return user.updateUser(data,sendResponse).then(sendResponse)
 }
+module.exports.updateGroup = (data, sendResponse) => {
+  return user.updateGroup(data,sendResponse).then(sendResponse)
+}
 module.exports.updateUserStatus = (data, sendResponse) => {
   return user.updateUserStatus(data,sendResponse).then(sendResponse)
 }

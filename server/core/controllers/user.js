@@ -35,6 +35,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    updateGroup: (req, res) => {
+      user.updateGroup(req.body, function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
     fetchUsers: (req, res) => {
       user.fetchUsers(function (response) {
         // console.log(response)
