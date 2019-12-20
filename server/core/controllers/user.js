@@ -18,13 +18,18 @@ const accumulatorController = (function () {
         console.log(response)
         var isValid = true
         if (response.length == 0) {
+          var responseBackend = {
+            status: isValid
+            
+          }
           isValid = false
-        }
+        }else{
         var responseBackend = {
           name: response[0].user,
           phoneNumber: response[0].phone_login,
           status: isValid
         }
+      }
         console.log(responseBackend)
         res.status(200).json(responseBackend)
       });
