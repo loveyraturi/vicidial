@@ -33,8 +33,8 @@ module.exports.authenticate = function (data) {
   return global.db
     .select('*')
     .from('vicidial_users').where({
-      phone_login: data.userName,
-      phone_pass: data.password
+      user: data.userName,
+      pass: data.password
     })
 
 }
