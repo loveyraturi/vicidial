@@ -82,6 +82,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    fetchUserBYCampaingId: (req, res) => {
+      user.fetchUserBYCampaingId(req.params.campaingId,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
   }
 })()
 module.exports = accumulatorController

@@ -32,6 +32,9 @@ module.exports.fetchGroups = (sendResponse) => {
 module.exports.fetchGroupsById = (id,sendResponse) => {
   return user.fetchGroupsById(id).then(sendResponse)
 }
+module.exports.fetchUserBYCampaingId = (id,sendResponse) => {
+  return user.fetchUserBYCampaingId(id).then(sendResponse)
+}
 module.exports.fetchUsersById = (id,sendResponse) => {
   return user.fetchUsersById(id).then(sendResponse)
 }
