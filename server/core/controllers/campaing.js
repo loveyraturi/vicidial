@@ -8,6 +8,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       })
     },
+    updateSurvey: (req, res) => {
+      // console.log(req.files`,"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      campaing.updateSurvey(req.body, function (response) {
+        res.status(200).json(response)
+      })
+    },
     fetchCampaingById: (req, res) => {
       campaing.fetchCampaingById(req.params.id, function (response) {
         res.status(200).json(response)
