@@ -3,22 +3,50 @@ module.exports.fetchCampaing = function () {
     .select('*')
     .from('vicidial_campaigns')
 }
-module.exports.updateSurvey = function (req, response) {
-  console.log(req,"########################");
-  // if (!req.files || Object.keys(req.files).length === 0) {
-  //   return res.status(400).send('No files were uploaded.');
-  // }
-
-  // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  // let sampleFile = req.files.file;
-
-  // // Use the mv() method to place the file somewhere on your server
-  // sampleFile.mv('D:\\proj\vivicall\file\filename.jpg', function(err) {
-  //   if (err)
-  //     return res.status(500).send(err);
-
-  //   res.send('File uploaded!');
-  // });
+module.exports.updateSurvey = function (data, response) {
+  console.log(data,"########################");
+  var request={
+    survey_first_audio_file: data.survey_first_audio_file,
+    survey_dtmf_digits: data.survey_dtmf_digits,
+    survey_ni_digit: data.survey_ni_digit,
+    survey_wait_sec: data.survey_wait_sec,
+    survey_opt_in_audio_file: data.survey_opt_in_audio_file,
+    survey_ni_audio_file: data.survey_ni_audio_file,
+    survey_method: data.survey_method,
+    survey_no_response_action: data.survey_no_response_action,
+    survey_ni_status: data.survey_ni_status,
+    survey_third_digit: data.survey_third_digit,
+    survey_third_audio_file: data.survey_third_audio_file,
+    survey_third_status: data.survey_third_status,
+    survey_third_exten: data.survey_third_exten,
+    survey_fourth_digit: data.survey_fourth_digit,
+    survey_fourth_audio_file: data.survey_fourth_audio_file,
+    survey_fourth_status: data.survey_fourth_status,
+    survey_fourth_exten: data.survey_fourth_exten,
+    survey_response_digit_map: data.survey_response_digit_map,
+    survey_xfer_exten:data.survey_xfer_exten,
+    survey_camp_record_dir: data.survey_camp_record_dir,
+    voicemail_ext: data.voicemail_ext,
+    survey_menu_id: data.survey_menu_id,
+    survey_recording: data.survey_recording
+  }
+  return global.db.table('vicidial_campaigns')
+    .where({
+      campaign_id: data.campaign_id
+    })
+    .update(request)
+    .returning('*')
+    .bind(console)
+    .then((resp) => {
+      response({
+        status: true
+      })
+    }).catch((error) => {
+      console.log(error);
+      response({
+        "error": error.sqlMessage
+      })
+    })
 }
 module.exports.createCampaing = function (data, response) {
   console.log("@$@$@#$@#$@$", data.campaign)
