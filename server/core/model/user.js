@@ -29,8 +29,7 @@ module.exports.fetchGroupsById = function (id) {
     .from('vicidial_user_groups').where({user_group:id})
 }
 module.exports.fetchUserBYCampaingId = function (id) {
-  return global.db.select('*').from('vicidial_campaigns').leftOuterJoin('vicidial_users ', 'vicidial_campaigns.user_group ', 'vicidial_users .user_group')
-  .where({campaign_id:id})
+  return global.db.select('*').from('vicidial_live_agents').where({campaign_id:id})
 }
 module.exports.authenticate = function (data) {
   console.log(data)

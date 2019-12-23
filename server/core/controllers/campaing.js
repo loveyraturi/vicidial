@@ -47,6 +47,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    fetchActiveCampaing: (req, res) => {
+      campaing.fetchActiveCampaing(function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
   }
 })()
 module.exports = accumulatorController

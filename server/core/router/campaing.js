@@ -47,6 +47,7 @@ module.exports = (function () {
   router.put('/updatecampaing', campaing.updateCampaing) // Done
   router.put('/updatesurvey', campaing.updateSurvey) // Done
   router.get('/fetchcampaing', campaing.fetchCampaing) // Done
+  router.get('/fetchactivecampaing', campaing.fetchActiveCampaing)
   router.put('/updatecampaingstatus', campaing.updateCampaingStatus)
   router.get('/fetchCampaingById/:id', campaing.fetchCampaingById)
   router.get('/deletecampaing/:id', campaing.deleteCampaing) // Done

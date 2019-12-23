@@ -3,6 +3,11 @@ module.exports.fetchCampaing = function () {
     .select('*')
     .from('vicidial_campaigns')
 }
+module.exports.fetchActiveCampaing = function () {
+  return global.db
+    .select('*')
+    .from('vicidial_campaigns').where({active:'Y'})
+}
 module.exports.updateSurvey = function (data, response) {
   console.log(data,"########################");
   var request={

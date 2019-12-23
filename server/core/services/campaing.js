@@ -25,3 +25,6 @@ module.exports.updateCampaingStatus = (data, sendResponse) => {
 module.exports.fetchCampaing = (sendResponse) => {
   return campaing.fetchCampaing().then(sendResponse)
 }
+module.exports.fetchActiveCampaing = (sendResponse) => {
+  return campaing.fetchActiveCampaing().then(sendResponse)
+}
