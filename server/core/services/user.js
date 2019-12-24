@@ -29,6 +29,12 @@ module.exports.fetchUsers = (sendResponse) => {
 module.exports.fetchGroups = (sendResponse) => {
   return user.fetchGroups().then(sendResponse)
 }
+module.exports.fetchReportData = (sendResponse) => {
+  return user.fetchReportData().then(sendResponse)
+}
+module.exports.fetchReportDataBetween = (datefrom,dateto,sendResponse) => {
+  return user.fetchReportDataBetween(datefrom,dateto).then(sendResponse)
+}
 module.exports.fetchGroupsById = (id,sendResponse) => {
   return user.fetchGroupsById(id).then(sendResponse)
 }

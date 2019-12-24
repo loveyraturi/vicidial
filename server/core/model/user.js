@@ -23,6 +23,17 @@ module.exports.fetchGroups = function () {
     .select('*')
     .from('vicidial_user_groups')
 }
+module.exports.fetchReportData = function () {
+  return global.db
+    .select('*')
+    .from('vicidial_log')
+}
+module.exports.fetchReportDataBetween = function (datefrom,dateto) {
+  console.log(datefrom,dateto)
+  return global.db
+    .select('*')
+    .from('vicidial_log').whereBetween('start_epoch ', [datefrom,dateto])
+}
 module.exports.fetchGroupsById = function (id) {
   return global.db
     .select('*')
