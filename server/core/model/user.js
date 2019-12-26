@@ -23,14 +23,42 @@ module.exports.fetchGroups = function () {
     .select('*')
     .from('vicidial_user_groups')
 }
-module.exports.fetchReportData = function () {
-  return global.db
+module.exports.fetchReportData = function (limitgot,offsetgot) {
+  var limit=parseInt(limitgot, 10);
+  var offset=parseInt(offsetgot, 10);
+  console.log(limit,offset)
+  if(limit==0 && offset==0){
+    return global.db
     .select('*')
     .from('vicidial_log')
+  }else{
+  return global.db
+    .select('*')
+    .from('vicidial_log').limit(limit).offset(offset)
+  }
+}
+
+module.exports.fetchCountOfReport = function () {
+  return global.db
+    .count('*', {as: 'count'})
+    .from('vicidial_log')
+}
+module.exports.fetchCountReportDataBetween = function (data) {
+  console.log(data)
+  if(data.limit==0 && data.offset==0){
+    return global.db
+    .count('*', {as: 'count'})
+    .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom,data.dateto]).whereIn('campaign_id',data.campaingId).orWhereIn('user',data.userId)
+  }else{
+  return global.db
+    .count('*', {as: 'count'})
+    .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom,data.dateto]).whereIn('campaign_id',data.campaingId).orWhereIn('user',data.userId).limit(data.limit).offset(data.offset)
+  }
 }
 module.exports.fetchReportDataBetween = function (data) {
   console.log(data)
-  return global.db
+  if(data.limit==0 && data.offset==0){
+    return global.db
     .select('lead_id','list_id','campaign_id',
     'call_date',
     'start_epoch',
@@ -43,6 +71,21 @@ module.exports.fetchReportDataBetween = function (data) {
     'processed',
     'term_reason')
     .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom,data.dateto]).whereIn('campaign_id',data.campaingId).orWhereIn('user',data.userId)
+  }else{
+  return global.db
+    .select('lead_id','list_id','campaign_id',
+    'call_date',
+    'start_epoch',
+    'end_epoch',
+    'length_in_sec',
+    'status',
+    'phone_number',
+    'user',
+    'comments',
+    'processed',
+    'term_reason')
+    .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom,data.dateto]).whereIn('campaign_id',data.campaingId).orWhereIn('user',data.userId).limit(data.limit).offset(data.offset)
+  }
 }
 module.exports.fetchGroupsById = function (id) {
   return global.db

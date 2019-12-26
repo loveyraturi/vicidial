@@ -77,7 +77,19 @@ const accumulatorController = (function () {
       });
     },
     fetchReportData: (req, res) => {
-      user.fetchReportData(function (response) {
+      user.fetchReportData(req.params.limit,req.params.offset,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchCountOfReport: (req, res) => {
+      user.fetchCountOfReport(function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchCountReportDataBetween: (req, res) => {
+      user.fetchCountReportDataBetween(req.body,function (response) {
         // console.log(response)
         res.status(200).json(response)
       });

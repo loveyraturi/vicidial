@@ -29,8 +29,14 @@ module.exports.fetchUsers = (sendResponse) => {
 module.exports.fetchGroups = (sendResponse) => {
   return user.fetchGroups().then(sendResponse)
 }
-module.exports.fetchReportData = (sendResponse) => {
-  return user.fetchReportData().then(sendResponse)
+module.exports.fetchReportData = (limit,offset,sendResponse) => {
+  return user.fetchReportData(limit,offset).then(sendResponse)
+}
+module.exports.fetchCountOfReport = (sendResponse) => {
+  return user.fetchCountOfReport().then(sendResponse)
+}
+module.exports.fetchCountReportDataBetween = (data,sendResponse) => {
+  return user.fetchCountReportDataBetween(data).then(sendResponse)
 }
 module.exports.fetchReportDataBetween = (data,sendResponse) => {
   return user.fetchReportDataBetween(data).then(sendResponse)
