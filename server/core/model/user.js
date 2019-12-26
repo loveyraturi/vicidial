@@ -28,11 +28,21 @@ module.exports.fetchReportData = function () {
     .select('*')
     .from('vicidial_log')
 }
-module.exports.fetchReportDataBetween = function (datefrom,dateto) {
-  console.log(datefrom,dateto)
+module.exports.fetchReportDataBetween = function (data) {
+  console.log(data)
   return global.db
-    .select('*')
-    .from('vicidial_log').whereBetween('start_epoch ', [datefrom,dateto])
+    .select('lead_id','list_id','campaign_id',
+    'call_date',
+    'start_epoch',
+    'end_epoch',
+    'length_in_sec',
+    'status',
+    'phone_number',
+    'user',
+    'comments',
+    'processed',
+    'term_reason')
+    .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom,data.dateto]).whereIn('campaign_id',data.campaingId).orWhereIn('user',data.userId)
 }
 module.exports.fetchGroupsById = function (id) {
   return global.db

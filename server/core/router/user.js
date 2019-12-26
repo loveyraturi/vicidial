@@ -16,7 +16,7 @@ module.exports = (function () {
   router.get('/fetchgroups', user.fetchGroups)
   router.get('/fetchgroupsbyid/:id', user.fetchGroupsById)
   router.get('/fetchreportdata', user.fetchReportData)
-  router.get('/fetchreportdatabetween/:datefrom/:dateto', user.fetchReportDataBetween)
+  router.post('/fetchreportdatabetween', user.fetchReportDataBetween)
   router.get('/fetchuserfromcampaing/:campaingId', user.fetchUserBYCampaingId)
   return router
 }())

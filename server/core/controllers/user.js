@@ -83,7 +83,7 @@ const accumulatorController = (function () {
       });
     },
     fetchReportDataBetween: (req, res) => {
-      user.fetchReportDataBetween(req.params.datefrom,req.params.dateto,function (response) {
+      user.fetchReportDataBetween(req.body,function (response) {
         // console.log(response)
         res.status(200).json(response)
       });
