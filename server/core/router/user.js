@@ -19,6 +19,7 @@ module.exports = (function () {
   router.get('/fetchcountofreport', user.fetchCountOfReport)
   router.post('/fetchcountreportdatabetween', user.fetchCountReportDataBetween)
   router.post('/fetchreportdatabetween', user.fetchReportDataBetween)
+  router.post('/createexcel', user.createExcel)
   router.get('/fetchuserfromcampaing/:campaingId', user.fetchUserBYCampaingId)
   return router
 }())

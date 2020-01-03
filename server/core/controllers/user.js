@@ -82,6 +82,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    createExcel: (req, res) => {
+      user.createExcel(req.body,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
     fetchCountOfReport: (req, res) => {
       user.fetchCountOfReport(function (response) {
         // console.log(response)

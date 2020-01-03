@@ -32,6 +32,9 @@ module.exports.fetchGroups = (sendResponse) => {
 module.exports.fetchReportData = (limit,offset,sendResponse) => {
   return user.fetchReportData(limit,offset).then(sendResponse)
 }
+module.exports.createExcel = (data,sendResponse) => {
+  return user.createExcel(data,sendResponse)
+}
 module.exports.fetchCountOfReport = (sendResponse) => {
   return user.fetchCountOfReport().then(sendResponse)
 }
