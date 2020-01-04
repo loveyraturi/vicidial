@@ -18,11 +18,11 @@ const accumulatorController = (function () {
         console.log(response)
         var isValid = true
         if (response.length == 0) {
+          isValid = false
           var responseBackend = {
             status: isValid
             
           }
-          isValid = false
         }else{
         var responseBackend = {
           name: response[0].user,

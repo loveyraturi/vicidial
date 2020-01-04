@@ -110,9 +110,6 @@ module.exports.createExcel = function (data,response) {
         response({
           status: true
         })
-        // res.sendFile(tempFilePath, function(err){
-        //               console.log('---------- error downloading file: ' + err);
-        //           });
       });
       return {
         status: "gotit"
@@ -156,80 +153,24 @@ module.exports.fetchCountReportDataBetween = function (data) {
 }
 module.exports.fetchReportDataBetween = function (data) {
   console.log(data)
-  if (data.limit == 0 && data.offset == 0) {
-    return global.db
-      .select('lead_id', 'list_id', 'campaign_id',
-        'call_date',
-        'start_epoch',
-        'end_epoch',
-        'length_in_sec',
-        'status',
-        'phone_number',
-        'user',
-        'comments',
-        'processed',
-        'term_reason')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId)
-  } else {
     if(data.campaingId.length==0){
       return global.db
-      .select('lead_id', 'list_id', 'campaign_id',
-        'call_date',
-        'start_epoch',
-        'end_epoch',
-        'length_in_sec',
-        'status',
-        'phone_number',
-        'user',
-        'comments',
-        'processed',
-        'term_reason')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).limit(data.limit).offset(data.offset)
+      .select('status').count({ count: 'status' })
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).groupBy('status')
     }else if(data.userId.length==0){
       return global.db
-      .select('lead_id', 'list_id', 'campaign_id',
-        'call_date',
-        'start_epoch',
-        'end_epoch',
-        'length_in_sec',
-        'status',
-        'phone_number',
-        'user',
-        'comments',
-        'processed',
-        'term_reason')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).limit(data.limit).offset(data.offset)
+      .select('status').count({ count: 'status' })
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).groupBy('status')
     } else if(data.userId.length==0 && data.campaingId.length==0){
       return global.db
-      .select('lead_id', 'list_id', 'campaign_id',
-        'call_date',
-        'start_epoch',
-        'end_epoch',
-        'length_in_sec',
-        'status',
-        'phone_number',
-        'user',
-        'comments',
-        'processed',
-        'term_reason')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).limit(data.limit).offset(data.offset)
+      .select('status').count({ count: 'status' })
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).groupBy('status')
     }
     else{
       return global.db
-      .select('lead_id', 'list_id', 'campaign_id',
-        'call_date',
-        'start_epoch',
-        'end_epoch',
-        'length_in_sec',
-        'status',
-        'phone_number',
-        'user',
-        'comments',
-        'processed',
-        'term_reason')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).limit(data.limit).offset(data.offset)
+      .select('status').count({ count: 'status' })
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).groupBy('status')
     }
-  }
 }
 module.exports.fetchGroupsById = function (id) {
   return global.db
