@@ -68,13 +68,7 @@ module.exports.createExcel = function (data,response) {
       .select('*')
       .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).stream();
 
-    } else if(data.userId.length==0 && data.campaingId.length==0){
-      stream = global.db
-      .select('*')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).stream();
-
-    }
-    else{
+    } else{
       stream = global.db
       .select('*')
       .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).stream();
@@ -154,19 +148,24 @@ module.exports.fetchCountReportDataBetween = function (data) {
 module.exports.fetchReportDataBetween = function (data) {
   console.log(data)
     if(data.campaingId.length==0){
+
+      console.log(global.db
+        .select('status').count({ count: 'status' })
+        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).groupBy('status').toString())
       return global.db
       .select('status').count({ count: 'status' })
       .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).groupBy('status')
     }else if(data.userId.length==0){
+      console.log(global.db
+        .select('status').count({ count: 'status' })
+        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).groupBy('status').toString())
       return global.db
       .select('status').count({ count: 'status' })
       .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).groupBy('status')
-    } else if(data.userId.length==0 && data.campaingId.length==0){
-      return global.db
-      .select('status').count({ count: 'status' })
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).groupBy('status')
-    }
-    else{
+    } else{
+      console.log(global.db
+        .select('status').count({ count: 'status' })
+        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).groupBy('status').toString())
       return global.db
       .select('status').count({ count: 'status' })
       .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).groupBy('status')
