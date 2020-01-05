@@ -28,7 +28,8 @@ const accumulatorController = (function () {
           name: response[0].user,
           phoneNumber: response[0].phone_login,
           status: isValid,
-          level: response[0].user_level
+          level: response[0].user_level,
+          group: response[0].user_group
         }
       }
         console.log(responseBackend)

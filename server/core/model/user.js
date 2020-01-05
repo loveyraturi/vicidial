@@ -61,7 +61,7 @@ module.exports.createExcel = function (data,response) {
     if(data.campaingId.length==0){
       stream = global.db
       .select('*')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).stream();
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('user', data.userId).stream();
 
     }else if(data.userId.length==0){
       stream = global.db
@@ -71,7 +71,7 @@ module.exports.createExcel = function (data,response) {
     } else{
       stream = global.db
       .select('*')
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).stream();
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).whereIn('user', data.userId).stream();
 
     }
     
@@ -136,13 +136,13 @@ module.exports.fetchCountReportDataBetween = function (data) {
       .count('*', {
         as: 'count'
       })
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId)
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).whereIn('user', data.userId)
   } else {
     return global.db
       .count('*', {
         as: 'count'
       })
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).limit(data.limit).offset(data.offset)
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).whereIn('user', data.userId).limit(data.limit).offset(data.offset)
   }
 }
 module.exports.fetchReportDataBetween = function (data) {
@@ -151,10 +151,10 @@ module.exports.fetchReportDataBetween = function (data) {
 
       console.log(global.db
         .select('status').count({ count: 'status' })
-        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).groupBy('status').toString())
+        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('user', data.userId).groupBy('status').toString())
       return global.db
       .select('status').count({ count: 'status' })
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).orWhereIn('user', data.userId).groupBy('status')
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('user', data.userId).groupBy('status')
     }else if(data.userId.length==0){
       console.log(global.db
         .select('status').count({ count: 'status' })
@@ -165,10 +165,10 @@ module.exports.fetchReportDataBetween = function (data) {
     } else{
       console.log(global.db
         .select('status').count({ count: 'status' })
-        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).groupBy('status').toString())
+        .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).whereIn('user', data.userId).groupBy('status').toString())
       return global.db
       .select('status').count({ count: 'status' })
-      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).orWhereIn('user', data.userId).groupBy('status')
+      .from('vicidial_log').whereBetween('start_epoch ', [data.datefrom, data.dateto]).whereIn('campaign_id', data.campaingId).whereIn('user', data.userId).groupBy('status')
     }
 }
 module.exports.fetchGroupsById = function (id) {
