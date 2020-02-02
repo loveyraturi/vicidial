@@ -26,6 +26,9 @@ module.exports.updateUserStatus = (data, sendResponse) => {
 module.exports.fetchUsers = (sendResponse) => {
   return user.fetchUsers().then(sendResponse)
 }
+module.exports.fetchUsersByCampaing = (campaing,sendResponse) => {
+  return user.fetchUsersByCampaing(campaing).then(sendResponse)
+}
 module.exports.fetchGroups = (sendResponse) => {
   return user.fetchGroups().then(sendResponse)
 }

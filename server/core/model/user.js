@@ -6,6 +6,11 @@ module.exports.fetchUsers = function () {
     .select('*')
     .from('vicidial_users').orderBy('user_id', 'desc')
 }
+module.exports.fetchUsersByCampaing = function (campaing) {
+  return global.db
+    .select('vicidial_users.*')
+    .from('vicidial_campaigns').leftOuterJoin('vicidial_users', 'vicidial_campaigns.user_group', 'vicidial_users.user_group').where('vicidial_campaigns.campaign_id',campaing)
+}
 module.exports.fetchUsersById = function (id) {
   return global.db
     .select('*')

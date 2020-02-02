@@ -10,6 +10,7 @@ module.exports = (function () {
   router.put('/updategroup', user.updateGroup)
   router.put('/updateuserstatus', user.updateUserStatus)
   router.get('/fetchusers', user.fetchUsers)
+  router.get('/fetchusersbycampaing/:campaing',user.fetchUsersByCampaing)
   router.get('/fetchusersById/:id', user.fetchUsersById)
   router.get('/deleteuser/:id', user.deleteUser)
   router.get('/fetchgroupsbyuser/:id', user.fetchGroupsByUser)
