@@ -5,8 +5,8 @@ module.exports.fetchCampaing = function () {
 }
 module.exports.fetchActiveCampaing = function () {
   return global.db
-    .select('*')
-    .from('vicidial_campaigns').where({active:'Y'})
+    .select('*').count('vicidial_users.user_id as count')
+    .from('vicidial_campaigns').join('vicidial_users', 'vicidial_campaigns.user_group', 'vicidial_users.user_group').where('vicidial_campaigns.active','Y').where('vicidial_users.active','Y').groupBy('vicidial_campaigns.user_group')
 }
 module.exports.updateSurvey = function (data, response) {
   console.log(data,"########################");
