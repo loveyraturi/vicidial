@@ -56,6 +56,9 @@ module.exports.fetchUserBYCampaingId = (id,sendResponse) => {
 module.exports.fetchUsersById = (id,sendResponse) => {
   return user.fetchUsersById(id).then(sendResponse)
 }
+module.exports.fetchUserCountByCampaing = (id,sendResponse) => {
+  return user.fetchUserCountByCampaing(id).then(sendResponse)
+}
 module.exports.fetchGroupsByUser = (id,sendResponse) => {
   return user.fetchGroupsByUser(id).then(sendResponse)
 }

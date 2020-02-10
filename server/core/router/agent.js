@@ -12,6 +12,17 @@ module.exports = (function () {
   router.get('/fetchactivecampaingscount', agent.fetchActiveCampaingsCount)
   router.get('/fetchalluserscount', agent.fetchAllUsersCount)
   router.get('/fetchallcampaingscount', agent.fetchAllCampaingsCount)
+  router.get('/fetchlivechannelcount', agent.fetchLiveChannelCount)
+  router.get('/fetchlivechannel', agent.fetchLiveChannel)
+
+  router.get('/fetchallagentscountbygroup/:group', agent.fetchAllAgentsCountByGroup)
+  router.get('/fetchliveagentscountbygroup/:group', agent.fetchLiveAgentsCountByGroup)
+  router.get('/fetchpausedagentscountbygroup/:group', agent.fetchPausedAgentsCountByGroup)
+  router.get('/fetchholdagentscountbygroup/:group', agent.fetchHoldAgentsCountByGroup)
+  router.get('/fetchactiveuserscountbygroup/:group', agent.fetchActiveUsersCountByGroup)
+  router.get('/fetchactivecampaingscountbygroup/:group', agent.fetchActiveCampaingsCountByGroup)
+  router.get('/fetchalluserscountbygroup/:group', agent.fetchAllUsersCountByGroup)
+  router.get('/fetchallcampaingscountbygroup/:group', agent.fetchAllCampaingsCountByGroup)
  
   return router
 }())

@@ -18,6 +18,10 @@ module.exports.fetchUsersById = function (id) {
       user_id: id
     })
 }
+module.exports.fetchUserCountByCampaing = function (id) {
+  return global.db
+    .count('* as count').from('vicidial_campaigns').leftOuterJoin('vicidial_users', 'vicidial_campaigns.user_group', 'vicidial_users.user_group').where('vicidial_campaigns.campaign_id',id)
+}
 module.exports.fetchGroupsByUser = function (user_group) {
   return global.db
     .select('*')

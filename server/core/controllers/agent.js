@@ -52,6 +52,69 @@ const accumulatorController = (function () {
         // console.log(response)
         res.status(200).json(response)
       });
+    },
+    fetchLiveChannelCount: (req, res) => {
+      agent.fetchLiveChannelCount(function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchLiveChannel: (req, res) => {
+      agent.fetchLiveChannel(function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+
+    fetchAllAgentsCountByGroup: (req, res) => {
+      console.log("fetchAllAgentsCountByGroup")
+      agent.fetchAllAgentsCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchLiveAgentsCountByGroup: (req, res) => {
+      console.log("fetchLiveAgentsCountByGroup")
+      agent.fetchLiveAgentsCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchPausedAgentsCountByGroup: (req, res) => {
+      agent.fetchPausedAgentsCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchHoldAgentsCountByGroup: (req, res) => {
+      agent.fetchHoldAgentsCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchActiveUsersCountByGroup: (req, res) => {
+      agent.fetchActiveUsersCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchActiveCampaingsCountByGroup: (req, res) => {
+      agent.fetchActiveCampaingsCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+   fetchAllUsersCountByGroup: (req, res) => {
+    agent.fetchAllUsersCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
+    fetchAllCampaingsCountByGroup: (req, res) => {
+      agent.fetchAllCampaingsCountByGroup(req.params.group,function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
     }
   }
 })()

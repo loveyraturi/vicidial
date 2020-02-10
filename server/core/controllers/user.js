@@ -72,6 +72,12 @@ const accumulatorController = (function () {
         res.status(200).json(response)
       });
     },
+    fetchUserCountByCampaing: (req, res) => {
+      user.fetchUserCountByCampaing(req.params.id, function (response) {
+        // console.log(response)
+        res.status(200).json(response)
+      });
+    },
     fetchGroupsByUser: (req, res) => {
       user.fetchGroupsByUser(req.params.id, function (response) {
         // console.log(response)

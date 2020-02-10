@@ -12,6 +12,7 @@ module.exports = (function () {
   router.get('/fetchusers', user.fetchUsers)
   router.get('/fetchusersbycampaing/:campaing',user.fetchUsersByCampaing)
   router.get('/fetchusersById/:id', user.fetchUsersById)
+  router.get('/fetchusercountbycampaing/:id', user.fetchUserCountByCampaing)
   router.get('/deleteuser/:id', user.deleteUser)
   router.get('/fetchgroupsbyuser/:id', user.fetchGroupsByUser)
   router.get('/fetchgroups', user.fetchGroups)
