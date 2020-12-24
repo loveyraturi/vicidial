@@ -32,7 +32,7 @@
     "csv-express": "^1.2.2",
     "csv-parser": "^2.2.0",
     "csv-string": "^3.1.5",
-    "date-and-time": "^0.6.3",
+    "date-and-time": "^0.14.2",
     "dotenv": "^6.1.0",
     "exceljs": "^3.5.0",
     "exec": "^0.2.1",
