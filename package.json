@@ -46,7 +46,7 @@
     "js-xlsx": "^0.8.22",
     "json-sql-builder": "^1.0.26",
     "jsonschema": "^1.2.4",
-    "knex": "^0.19.5",
+    "knex": "^2.4.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "multer": "^1.4.2",
